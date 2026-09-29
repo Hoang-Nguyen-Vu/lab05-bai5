@@ -1,0 +1,14 @@
+/Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/OOP.GeneratedMSBuildEditorConfig.editorconfig
+/Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/OOP.AssemblyInfoInputs.cache
+/Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/OOP.AssemblyInfo.cs
+/Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/OOP.csproj.CoreCompileInputs.cache
+/Users/vuhoangnguyen/Desktop/OOP/bin/Debug/net10.0/OOP
+/Users/vuhoangnguyen/Desktop/OOP/bin/Debug/net10.0/OOP.deps.json
+/Users/vuhoangnguyen/Desktop/OOP/bin/Debug/net10.0/OOP.runtimeconfig.json
+/Users/vuhoangnguyen/Desktop/OOP/bin/Debug/net10.0/OOP.dll
+/Users/vuhoangnguyen/Desktop/OOP/bin/Debug/net10.0/OOP.pdb
+/Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/OOP.dll
+/Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/refint/OOP.dll
+/Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/OOP.pdb
+/Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/OOP.genruntimeconfig.cache
+/Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/ref/OOP.dll
