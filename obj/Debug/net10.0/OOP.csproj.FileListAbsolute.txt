@@ -12,3 +12,4 @@
 /Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/OOP.pdb
 /Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/OOP.genruntimeconfig.cache
 /Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/ref/OOP.dll
+/Users/vuhoangnguyen/Desktop/OOP/obj/Debug/net10.0/OOP.sourcelink.json
