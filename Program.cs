@@ -1,8 +1,7 @@
-// Hoàng Nguyên Vũ
-// 202419020 
+//Hoàng Nguyên Vũ
+//202419020
 using System;
-
-namespace ProjectManagement
+namespace DeviceManagement
 {
     class Program
     {
@@ -10,219 +9,87 @@ namespace ProjectManagement
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            Payroll payroll = new Payroll("2026-10");
+            // 2 máy tính, 1 máy có GPU rời
+            Computer pc1 = new Computer("PC01", "Dell OptiPlex 7090", 2022, 15000000m, 16, "Core i5", false, Device.DeviceStatus.Active);
+            Computer pc2 = new Computer("PC02", "ASUS ROG Gaming", 2018, 30000000m, 32, "Core i7", true, Device.DeviceStatus.UnderMaintenance);
 
-            SalariedEmployee e1 = new SalariedEmployee("E001", "Nguyễn Minh An", "Đào tạo", 15000000, 2000000);
-            e1.addBonus(1000000);
-            payroll.addEmployee(e1);
+            // 2 máy in, 1 máy in > 100.000 trang
+            Printer pr1 = new Printer("PR01", "Canon LBP2900", 2023, 4000000m, "laser", 20000, false);
+            NetworkPrinter pr2 = new NetworkPrinter("PR02", "HP LaserJet Pro", 2019, 12000000m, "laser", 120000, true, "192.168.1.50");
 
-            HourlyEmployee e2 = new HourlyEmployee("E002", "Trần Thu Bình", "Hỗ trợ", 100000, 150);
-            e2.addBonus(500000);
-            payroll.addEmployee(e2);
+            // bóng đèn sử dụng > 3.000 giờ
+            Projector pj1 = new Projector("PJ01", "Sony VPL-EX570", 2020, 10000000m, 4000, 3500);
 
-            HourlyEmployee e3 = new HourlyEmployee("E003", "Lê Hoàng Chi", "Hỗ trợ", 100000, 170);
-            payroll.addEmployee(e3);
+            // 2 phòng thực hành
+            LabRoom lab1 = new LabRoom("LAB01", "Phòng Máy Tính 1", 30);
+            LabRoom lab2 = new LabRoom("LAB02", "Phòng Đa Phương Tiện 2", 20);
 
-            SalesEmployee e4 = new SalesEmployee("E004", "Phạm Quốc Dũng", "Kinh doanh", 8000000, 200000000, 0.05);
-            e4.addBonus(0.02, 50000000, "Thưởng 2% doanh số vượt mức");
-            payroll.addEmployee(e4);
+            //1 Thêm thiết bị vào phòng
+            lab1.AddDevice(pc1);
+            lab1.AddDevice(pc2);
+            lab1.AddDevice(pr1);
+            lab2.AddDevice(pr2);
+            lab2.AddDevice(pj1);
+            Console.WriteLine("Đã thêm PC01, PC02, PR01 vào phòng 1.");
+            Console.WriteLine("Đã thêm PR02, PJ01 vào phòng 2.");
 
-            Console.WriteLine("Tổng lương phòng Hỗ trợ: {0:N0}", payroll.calculatePayrollByDepartment("Hỗ trợ"));
-            Console.WriteLine("Tổng lương phòng Đào tạo: {0:N0}", payroll.calculatePayrollByDepartment("Đào tạo"));
-            Console.WriteLine("Tổng lương phòng Kinh doanh: {0:N0}", payroll.calculatePayrollByDepartment("Kinh doanh"));
-
-            Employee topEarner = payroll.findHighestPaidEmployee();
-            if (topEarner != null)
-            {
-                Console.WriteLine("Nhân viên thu nhập cao nhất: {0} - {1:N0} VNĐ",
-                    topEarner.FullName, topEarner.calculateGrossPay());
-            }
-
-            PrintCheckResult("E001 - SalariedEmployee", 18000000, e1.calculateGrossPay());
-            PrintCheckResult("E002 - HourlyEmployee (150h)", 15500000, e2.calculateGrossPay());
-            PrintCheckResult("E003 - HourlyEmployee (170h)", 17500000, e3.calculateGrossPay());
-            PrintCheckResult("E004 - SalesEmployee", 19000000, e4.calculateGrossPay());
-            PrintCheckResult("Tổng bảng lương", 70000000, payroll.calculateTotalPayroll());
-            PrintCheckResult("Tổng chi trả phòng Hỗ trợ", 33000000, payroll.calculatePayrollByDepartment("Hỗ trợ"));
-
-
-            Console.Write("Test 1: Mã nhân viên rỗng | ");
+            //2 Thử thêm thiết bị bị trùng mã
+            Console.WriteLine("\n Thêm thiết bị trùng mã PC01 vào LAB01:");
             try
             {
-                new SalariedEmployee("", "Test", "Kỹ thuật", 10000000, 0);
-                Console.Write("Không lỗi ");
-                PrintStatus(false);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(true);
-            }
-
-            Console.Write("Test 2: Họ tên nhân viên rỗng | ");
-            try
-            {
-                new HourlyEmployee("ERR02", null, "Sản xuất", 100000, 100);
-                Console.Write("Không lỗi ");
-                PrintStatus(false);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(true);
-            }
-
-            Console.Write("Test 3: Phòng ban nhân viên rỗng | ");
-            try
-            {
-                new SalesEmployee("ERR03", "Test", "", 10000000, 0, 0.05);
-                Console.Write("Không lỗi ");
-                PrintStatus(false);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(true);
-            }
-
-            Console.Write("Test 4: Đơn giá giờ bằng 0 | ");
-            try
-            {
-                new HourlyEmployee("ERR04", "Test", "Sản xuất", 0, 100);
-                Console.Write("Không lỗi ");
-                PrintStatus(false);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(true);
-            }
-
-            Console.Write("Test 5: Số giờ làm âm (-5h) | ");
-            try
-            {
-                new HourlyEmployee("ERR05", "Test", "Sản xuất", 100000, -5);
-                Console.Write("Không lỗi ");
-                PrintStatus(false);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(true);
-            }
-
-            Console.Write("Test 6: Số giờ làm vượt 250h (251h) | ");
-            try
-            {
-                new HourlyEmployee("ERR06", "Test", "Sản xuất", 100000, 251);
-                Console.Write("Không lỗi ");
-                PrintStatus(false);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(true);
-            }
-
-            Console.Write("Test 7: Số giờ làm đúng biên 250h (Hợp lệ) | ");
-            try
-            {
-                HourlyEmployee value = new HourlyEmployee("E250", "Test", "Sản xuất", 100000, 250);
-                Console.Write("Khởi tạo thành công | ");
-                PrintStatus(value.WorkedHours == 250);
+                Computer pcTrung = new Computer("PC01", "Máy tính trùng mã", 2024, 12000000m, 8, "Core i3", false);
+                lab1.AddDevice(pcTrung);
             }
             catch (Exception ex)
             {
-                Console.Write("Lỗi ngoài ý muốn: {0} ", ex.Message);
-                PrintStatus(false);
+                Console.WriteLine(ex.Message);
             }
 
-            Console.Write("Test 8: Lương cố định âm (-5.000.000) | ");
-            try
+            //3 In danh sách thiết bị trong từng phòng
+            Console.WriteLine("\nDanh sách thiết bị trong từng phòng:");
+            Console.WriteLine(lab1.ToString());
+            Console.WriteLine(lab2.ToString());
+
+            //4 Tính tổng chi phí bảo trì dự kiến của mỗi phòng
+            Console.WriteLine("\nTổng chi phí bảo trì dự kiến của mỗi phòng:");
+            Console.WriteLine("Chi phí phòng 1: " + lab1.CalculateAnnualMaintenanceCost().ToString("N0"));
+            Console.WriteLine("Chi phí phòng 2: " + lab2.CalculateAnnualMaintenanceCost().ToString("N0"));
+
+            // Liệt kê thiết bị cần bảo trì
+            Console.WriteLine("\nLiệt kê thiết bị cần bảo trì:");
+            Device[] bt1 = lab1.GetDevicesRequiringMaintenance();
+            Console.WriteLine("Phòng 1, " + bt1.Length + " thiết bị:");
+            for (int i = 0; i < bt1.Length; i++)
             {
-                new SalariedEmployee("ERR08", "Test", "Kỹ thuật", -5000000, 0);
-                Console.Write("Không lỗi ");
-                PrintStatus(false);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(true);
+                Console.WriteLine("  + " + bt1[i].ToString());
             }
 
-            Console.Write("Test 9: Tỷ lệ hoa hồng vượt 0.3 (0.35) | ");
-            try
+            Device[] bt2 = lab2.GetDevicesRequiringMaintenance();
+            Console.WriteLine("Phòng 2, " + bt2.Length + " thiết bị:");
+            for (int i = 0; i < bt2.Length; i++)
             {
-                new SalesEmployee("ERR09", "Test", "Kinh doanh", 10000000, 0, 0.35);
-                Console.Write("Không lỗi ");
-                PrintStatus(false);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(true);
+                Console.WriteLine("  + " + bt2[i].ToString());
             }
 
-            Console.Write("Test 10: Tỷ lệ thưởng vượt 0.5 (rate = 0.6) | ");
-            try
-            {
-                e1.addBonus(0.6, 10000000, "Vượt trần");
-                Console.Write("Không lỗi ");
-                PrintStatus(false);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(true);
-            }
+            //6 Kết nối mạng cho các đối tượng thực thi INetworkable
+            Console.WriteLine("\n Kết nối mạng cho các đối tượng thực thi INetworkable:");
+            pc1.Connect("192.168.1.101");
+            pc2.Connect("192.168.1.102");
+            pr2.Connect("192.168.1.103");
+            Console.WriteLine("Đã gọi Connect() cho PC01, PC02 và PR02.");
 
-            Console.Write("Test 11: Thêm trùng mã E001 vào Payroll | ");
-            try
+            //7 Duyệt các thiết bị mạng thông qua kiểu INetworkable
+            Console.WriteLine("\n Duyệt thiết bị mạng thông qua kiểu INetworkable:");
+            Device[] allDevices = new Device[] { pc1, pc2, pr1, pr2, pj1 };
+            for (int i = 0; i < allDevices.Length; i++)
             {
-                bool trungMa = payroll.addEmployee(new SalariedEmployee("E001", "Trùng", "Đào tạo", 10000000, 0));
-                Console.Write("Trả về {0} | ", trungMa);
-                PrintStatus(!trungMa);
+                if (allDevices[i] is INetworkable)
+                {
+                    INetworkable net = (INetworkable)allDevices[i];
+                    Console.WriteLine(allDevices[i].ToString());
+                    Console.WriteLine("   IP: " + net.IpAddress + " | Status: " + (net.IsConnected ? "Connected" : "Disconnected"));
+                }
             }
-            catch (Exception ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(false);
-            }
-
-            Console.Write("Test 12: Thêm đối tượng rỗng vào Payroll | ");
-            try
-            {
-                bool maRong = payroll.addEmployee(null);
-                Console.Write("Trả về {0} | ", maRong);
-                PrintStatus(!maRong);
-            }
-            catch (Exception ex)
-            {
-                Console.Write("Lỗi: {0} | ", ex.Message);
-                PrintStatus(false);
-            }
-        }
-
-        private static void PrintCheckResult(string ten, double kiVong, double thucTe)
-        {
-            bool isPassed = (kiVong - thucTe) == 0;
-            Console.Write(string.Format("{0} | Chạy: {1:N0} | Test: {2:N0} ", ten, thucTe, kiVong));
-            PrintStatus(isPassed);
-        }
-
-        private static void PrintStatus(bool isPassed)
-        {
-            if (isPassed)
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("[PASS]");
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("[FAIL]");
-            }
-            Console.ResetColor();
         }
     }
 }
